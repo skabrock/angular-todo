@@ -12,9 +12,9 @@ app.directive('toDo', function() {
   return {
     restrict: 'E',
     template: `
-      <div ng-repeat='todo in todos'>
-        <label>
-          <input type="checkbox" ng-model="smth" ng-change="toggleTodo(todo.id)">
+      <div ng-repeat='(i, todo) in todos'>
+        <label ng-style="{textDecoration: todo.checked ? 'line-through' : 'none'}">
+          <input type="checkbox" ng-model="todos[i].checked">
           {{todo.title}}
         </label>
       </div>
@@ -25,7 +25,6 @@ app.directive('toDo', function() {
     link: function(scope, element, attrs) {
       scope.todos = toDoList;
       scope.addTodo = function() {
-        console.log('add task', );
         var str = scope.todoText,
             list = scope.todos;
         if (str.length) {
@@ -34,11 +33,8 @@ app.directive('toDo', function() {
             title: str,
             checked: false
           })
-          str = '';
+          scope.todoText = '';
         }
-      }
-      scope.toggleTodo = function(id) {
-        console.log(id);
       }
     }
   }
