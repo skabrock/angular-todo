@@ -1,0 +1,12 @@
+.button {
+  cursor: pointer;
+}
+
+.button:before {
+  font-family: fontAwesome;
+}
+
+.todo {
+  font-family: serif;
+  font-size: 14px;
+}
