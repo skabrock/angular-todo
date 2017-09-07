@@ -8,11 +8,11 @@ app.directive('toDo', function() {
       checked: true
     }, {
       id: 1,
-      title: 'Send it to Taya',
+      title: 'Fix all bugs',
       checked: true
     }, {
       id: 2,
-      title: 'Taya likes it?',
+      title: 'Push on github',
       checked: false
     }
   ];
@@ -25,10 +25,10 @@ app.directive('toDo', function() {
         <label>
           <input type="checkbox" ng-model="todo.checked">
           <span class="todo" ng-hide="editingTodo === todo.id" ng-style="{textDecoration: todo.checked ? 'line-through' : 'none'}">{{todo.title}}</span>
-          <input class="todo" ng-show="editingTodo === todo.id" type="text" ng-model="todos[i].title" ng-blur="editTodo()" ng-keyup="$event.keyCode == 13 && editTodo()" />
+          <input class="todo" ng-show="editingTodo === todo.id" type="text" ng-model="todo.title" ng-blur="editTodo()" ng-keyup="$event.keyCode == 13 && editTodo()" />
         </label>
-        <button title="edit" class="button {{editingTodo === todo.id ? 'fa-check' : 'fa-edit'}}" ng-click="editTodo(i)"></button>
-        <button title="remove" class="button fa-close" ng-click="removeTodo(i)"></button>
+        <button title="edit" class="button {{editingTodo === todo.id ? 'fa-check' : 'fa-edit'}}" ng-click="editTodo(todo.id)"></button>
+        <button title="remove" class="button fa-close" ng-click="removeTodo(todo.id)"></button>
       </div>
       <div ng-show="!todos.length">Empty todo list</div>
       <hr>
@@ -50,11 +50,13 @@ app.directive('toDo', function() {
           scope.todoText = '';
         }
       }
-      scope.removeTodo = function(i) {
-        scope.todos.splice(i, 1);
+      scope.removeTodo = function(id) {
+        scope.todos = scope.todos.filter(function (item) {
+          return item.id !== id;
+        })
       }
-      scope.editTodo = function(i) {
-        scope.editingTodo =  scope.editingTodo !== i ? i : null;
+      scope.editTodo = function(id) {
+        scope.editingTodo =  scope.editingTodo !== id ? id : null;
       }
     }
   }
